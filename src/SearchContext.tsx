@@ -21,7 +21,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     </SearchContext.Provider>
   );
 };
-
+//hook
 export const useSearch = (): SearchContextType => {
   const context = useContext(SearchContext);
   if (!context) {
