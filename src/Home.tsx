@@ -122,6 +122,16 @@ export default function Home() {
       prev.map((p) => (p.id === updatedProd.id ? updatedProd : p))
     );
   };
+//delete
+const handleDeleteProduct = (id?: number) => {
+  if (!id) return;
+
+  // konfirmim i thjeshtë për përdoruesin
+  if (!window.confirm("Are you sure you want to delete this product?")) return;
+
+  // hiq produktin nga lista
+  setProducts((prev) => prev.filter((p) => p.id !== id));
+};
 
   return (
     <Box sx={{ padding: 2 }}>
@@ -268,6 +278,16 @@ export default function Home() {
                   onClick={() => openEdit(p)}
                 >
                   Edit
+                </Button>
+              )}
+               {user && isAdmin() && (
+                <Button
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+             onClick={() => handleDeleteProduct(p.id)}
+                >
+                 delete
                 </Button>
               )}
             </CardActions>
