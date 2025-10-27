@@ -1,19 +1,23 @@
+// UserContext.tsx
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 
 interface User {
-  name: any;
-  phone: ReactNode;
-  address: any;
-  firstname: string;
-  lastname: string;
+  lastname: ReactNode;
+  firstname: ReactNode;
+  id?: number;
   username?: string;
   email?: string;
+  name: { firstname: string; lastname: string };
+  phone?: string;
+  address?: any;
+  role?: "admin" | "user"; 
 }
 
 interface UserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   logout: () => void;
+  isAdmin: () => boolean; 
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -31,8 +35,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUser(null);
   };
 
+//check user or admin
+  const isAdmin = () => user?.role === "admin";
+
   return (
-    <UserContext.Provider value={{ user, setUser, logout }}>
+    <UserContext.Provider value={{ user, setUser, logout, isAdmin }}>
       {children}
     </UserContext.Provider>
   );

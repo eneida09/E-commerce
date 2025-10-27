@@ -25,8 +25,17 @@ export default function LoginForm() {
         const foundUser = users.find((u: any) => u.username === username);
 
         if (foundUser) {
-          setUser(foundUser); 
-          localStorage.setItem("userData", JSON.stringify(foundUser));
+
+          //check if is admin 
+
+const isAdminUser = foundUser.id === 2; 
+
+
+const updatedUser = { ...foundUser, role: isAdminUser ? "admin" : "user" };
+
+setUser(updatedUser); 
+localStorage.setItem("userData", JSON.stringify(updatedUser));
+
         }
 
         setUsername("");
