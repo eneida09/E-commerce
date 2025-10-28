@@ -57,5 +57,6 @@ export default function Cart() {
 
       <Typography variant="h6">Total: ${total.toFixed(2)}</Typography>
     </Box>
+    
   );
 }

@@ -81,7 +81,7 @@ const navigate = useNavigate();
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        minHeight: "",
         backgroundColor: "#f9f9f9",
         display: "flex",
         justifyContent: "center",
@@ -99,7 +99,7 @@ const navigate = useNavigate();
         }}
       >
         {user ? (
-          <Box display="flex" flexDirection="column" gap={3}>
+          <Box display="flex" flexDirection="column"  gap={3}>
             <Typography variant="h5" fontWeight="bold" textAlign="center">
               Welcome, {user.name.firstname.toUpperCase()} {user.name.lastname.toUpperCase()} ({user.role})
             </Typography>
@@ -223,13 +223,16 @@ const navigate = useNavigate();
         )}
         <br/>
         <Box mt={3} textAlign="center">
-  <Button
-    variant="outlined"
-    onClick={() => navigate("/")}
-  >
-    Go to Home Page
-  </Button>
+  {user && (
+    <Button
+      variant="outlined"
+      onClick={() => navigate("/")}
+    >
+      Go to Home Page
+    </Button>
+  )}
 </Box>
+
 
       </Paper>
     </Box>

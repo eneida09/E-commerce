@@ -41,37 +41,85 @@ const Navbar: React.FC<DrawerAppBarProps> = ({ window }) => {
   const getTotalQuantity = (cart: CartItem[]) =>
     cart.reduce((total, item) => total + item.quantity, 0);
 
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        E-commerce
-      </Typography>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton
-              sx={{ textAlign: "center" }}
-              component={Link}
-              to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-            >
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-        <ListItem disablePadding>
+const drawer = (
+  <Box
+    onClick={handleDrawerToggle}
+    sx={{
+      height: "100%",
+      backgroundColor: "#0d47a1", // blu e errët për të përputhur AppBar
+      color: "white",
+      textAlign: "center",
+    }}
+  >
+    <Typography variant="h6" sx={{ my: 2, fontWeight: "bold" }}>
+      E-commerce
+    </Typography>
+    <Divider sx={{ bgcolor: "rgba(255,255,255,0.2)" }} />
+    <List>
+      {navItems.map((item) => (
+        <ListItem key={item} disablePadding>
           <ListItemButton
-            sx={{ textAlign: "center" }}
+            sx={{
+              textAlign: "center",
+              "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+            }}
             component={Link}
-            to="/cart"
+            to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
           >
-            <Badge badgeContent={getTotalQuantity(cart)} color="secondary" />
-            <ListItemText primary="Cart" sx={{ ml: 2 }} />
+            <ListItemText primary={item} primaryTypographyProps={{ color: "white" }} />
           </ListItemButton>
         </ListItem>
-      </List>
-    </Box>
-  );
+      ))}
+      <Divider sx={{ bgcolor: "rgba(255,255,255,0.2)", my: 1 }} />
+      <ListItem disablePadding>
+        <ListItemButton
+          sx={{
+            textAlign: "center",
+            "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+          }}
+          component={Link}
+          to="/cart"
+        >
+          
+          <Badge
+            badgeContent={getTotalQuantity(cart)}
+            color="secondary"
+            sx={{ "& .MuiBadge-badge": { color: "white", backgroundColor: "#f50057" } }}
+          >
+            
+          </Badge>
+          <ListItemText
+            primary="Cart"
+            sx={{ ml: 1 }}
+            primaryTypographyProps={{ color: "white" }}
+          />
+          
+        </ListItemButton>
+      </ListItem>
+            <ListItem disablePadding>
+        <ListItemButton
+          sx={{
+            textAlign: "center",
+            "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+          }}
+          component={Link}
+          to="/login"
+        >
+          
+          
+            
+         
+          <ListItemText
+            primary="Login"
+            sx={{ ml: 1 }}
+            primaryTypographyProps={{ color: "white" }}
+          />
+          
+        </ListItemButton>
+      </ListItem>
+    </List>
+  </Box>
+);
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -101,26 +149,27 @@ const Navbar: React.FC<DrawerAppBarProps> = ({ window }) => {
           </Box>
 
           <Box
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", sm: "flex" },
-              justifyContent: "center",
-            }}
-          >
-            <TextField
-              size="small"
-              placeholder="Search products..."
-              variant="outlined"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              sx={{
-                backgroundColor: "white",
-                borderRadius: 1,
-                width: "50%",
-                minWidth: "250px",
-              }}
-            />
-          </Box>
+  sx={{
+    flexGrow: 1,
+    display: "flex",
+    justifyContent: "center",
+  }}
+>
+  <TextField
+    size="small"
+    placeholder="Search products..."
+    variant="outlined"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    sx={{
+      backgroundColor: "white",
+      borderRadius: 1,
+      width: { xs: "80%", sm: "50%" }, 
+      minWidth: { xs: "150px", sm: "250px" },
+    }}
+  />
+</Box>
+
 
           <Box
             sx={{

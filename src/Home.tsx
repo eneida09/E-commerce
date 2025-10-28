@@ -142,7 +142,7 @@ export default function Home() {
         <Button
           ref={addButtonRef}
           variant="contained"
-          color="success"
+          color="secondary"
           sx={{ mb: 2 }}
           onClick={() => setOpenAddModal(true)}
         >
