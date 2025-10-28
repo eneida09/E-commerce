@@ -1,69 +1,103 @@
-# React + TypeScript + Vite
+# 🛒 React E-Commerce App (FakeStoreAPI)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-18-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue)
+![Material UI](https://img.shields.io/badge/Material_UI-5.15-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Currently, two official plugins are available:
+A **React-based e-commerce web application** using [FakeStoreAPI](https://fakestoreapi.com/) to fetch pseudo-real products for demonstration purposes.  
+Supports **CRUD operations**, category filtering, search, sorting, and admin/user roles.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ⚡ Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Product Listing**: Fetch all products from FakeStoreAPI.  
+- **Category Filter**: Filter products by category.  
+- **Search & Sort**: Search products by title; sort A-Z or Z-A.  
+- **CRUD Operations** (Admin only):
+  - Add new products
+  - Edit existing products
+  - Delete products (with confirmation)
+- **Responsive UI**: Using Material UI cards and modals.  
+- **Admin/User Roles**: Admin can manage products; users can view products.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🛠 Tech Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- React 18 + TypeScript  
+- Material UI  
+- React Router v6  
+- FakeStoreAPI as backend  
+- Fetch API for HTTP requests  
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🔗 API Endpoints
+
+**Products**
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /products | Fetch all products |
+| GET | /products/:id | Fetch single product |
+| GET | /products/category/:category | Fetch products by category |
+| POST | /products | Simulate adding a product |
+| PUT/PATCH | /products/:id | Simulate updating a product |
+| DELETE | /products/:id | Simulate deleting a product |
+
+> **Note:** POST, PUT, PATCH, DELETE are **simulated**; changes are only reflected in frontend state.
+
+---
+
+## 📌 How It Works
+
+### Fetch Products
+```ts
+const endpoint = searchTerm
+  ? "https://fakestoreapi.com/products"
+  : `https://fakestoreapi.com/products/category/${activeCategory}`;
+
+fetch(endpoint)
+  .then(res => (res.ok ? res.json() : Promise.reject("Failed")))
+  .then((data: Product[]) => {
+    const filtered = searchTerm
+      ? data.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()))
+      : data;
+
+    const sortedData = sortOrder === "asc"
+      ? filtered.sort((a, b) => a.title.localeCompare(b.title))
+      : filtered.sort((a, b) => b.title.localeCompare(a.title));
+
+    setProducts(sortedData);
+  })
+  .catch(() => setError("Error fetching products"))
+  .finally(() => setLoadingProducts(false));
+
+
+Add / Update / Delete Products (Admin Only)
+
+Add: Opens modal, fill form, product added to frontend state.
+
+Update: Open product modal pre-filled with data, save updates to state.
+
+Delete: Removes product from frontend state.
+
+⚠️ Refreshing the page will reset all changes because FakeStoreAPI does not persist POST/PUT/DELETE requests.
+
+🎨 UI Components
+
+Product Cards: Show product image, title, description, price, and buttons for details/update/delete.
+
+Modal Forms: Add and edit products using a reusable AddProductForm component.
+
+Filter & Sort: Material UI Select inputs for category filter and sort order.
+
+| Role  | Permissions                   |
+| ----- | ----------------------------- |
+| Admin | Add, edit, delete products    |
+| User  | View, search, filter products |
+
+
