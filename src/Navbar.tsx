@@ -24,7 +24,7 @@ import { useSearch } from "./SearchContext";
 import AccountPopover from "./AccountPopover";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
+const navItems = ["Home", "About", ];
 
 interface DrawerAppBarProps {
   window?: () => Window;

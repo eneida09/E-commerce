@@ -24,7 +24,7 @@ const AboutPage = () => {
           alignItems: "center",
           px: 2,
           textAlign: "center",
-          bgcolor: "#e0f7fa", 
+          bgcolor: "#e0f7fa",
         }}
       >
         <Typography
@@ -41,10 +41,10 @@ const AboutPage = () => {
           color="text.secondary"
           sx={{ mb: 5, maxWidth: 1000, lineHeight: 1.6 }}
         >
-          We are passionate about providing the best products at the best prices.
-          Our mission is to make online shopping fast, simple, and enjoyable.
-          Join us and discover carefully selected products that ensure quality
-          and satisfaction.
+          We are passionate about providing the best products at the best
+          prices. Our mission is to make online shopping fast, simple, and
+          enjoyable. Join us and discover carefully selected products that
+          ensure quality and satisfaction.
         </Typography>
 
         <Button
@@ -111,7 +111,6 @@ const AboutPage = () => {
         <Typography
           variant="body2"
           color="text.secondary"
-        
           sx={{ mt: 3, fontSize: "0.9rem" }}
         >
           © {new Date().getFullYear()} YourStore. All rights reserved.

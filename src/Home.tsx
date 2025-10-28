@@ -5,7 +5,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import type { SelectChangeEvent } from "@mui/material/Select";
-
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -14,7 +13,7 @@ import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 import { useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
+
 import { useSearch } from "./SearchContext";
 import { useUser } from "./UserContext";
 import AddProductForm from "./AddProductForm";
@@ -29,7 +28,7 @@ interface Rating {
 }
 
 interface Product {
-  id?: number; // optional
+  id?: number; 
   title: string;
   price: number;
   description: string;
@@ -79,12 +78,13 @@ export default function Home() {
     fetch(endpoint)
       .then((res) => (res.ok ? res.json() : Promise.reject("Failed")))
       .then((data: Product[]) => {
+    
         let filtered = searchTerm
           ? data.filter((p) =>
-              p.title.toLowerCase().includes(searchTerm.toLowerCase())
+              p.title.toLowerCase().startsWith(searchTerm.toLowerCase())
             )
           : data;
-
+//renditja
         const sortedData =
           sortOrder === "asc"
             ? filtered.sort((a, b) => a.title.localeCompare(b.title))
@@ -92,10 +92,12 @@ export default function Home() {
 
         setProducts(sortedData);
       })
+      //if have a error
       .catch(() => setError("Error fetching products"))
+      
       .finally(() => setLoadingProducts(false));
   }, [activeCategory, sortOrder, searchTerm]);
-
+//search
   const filteredProducts = products.filter((p) =>
     p.title.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
@@ -122,16 +124,17 @@ export default function Home() {
       prev.map((p) => (p.id === updatedProd.id ? updatedProd : p))
     );
   };
-//delete
-const handleDeleteProduct = (id?: number) => {
-  if (!id) return;
+  //delete
+  const handleDeleteProduct = (id?: number) => {
+    if (!id) return;
 
-  // konfirmim i thjeshtë për përdoruesin
-  if (!window.confirm("Are you sure you want to delete this product?")) return;
+    //confirm for user
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
 
-  // hiq produktin nga lista
-  setProducts((prev) => prev.filter((p) => p.id !== id));
-};
+    // remove product from
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+  };
 
   return (
     <Box sx={{ padding: 2 }}>
@@ -280,14 +283,14 @@ const handleDeleteProduct = (id?: number) => {
                   Edit
                 </Button>
               )}
-               {user && isAdmin() && (
+              {user && isAdmin() && (
                 <Button
                   size="small"
                   color="secondary"
                   variant="outlined"
-             onClick={() => handleDeleteProduct(p.id)}
+                  onClick={() => handleDeleteProduct(p.id)}
                 >
-                 delete
+                  delete
                 </Button>
               )}
             </CardActions>
